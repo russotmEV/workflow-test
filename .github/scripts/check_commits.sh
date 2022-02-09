@@ -1,14 +1,16 @@
 #!/bin/bash
 set -eu
 
-target_branch_diff_commits=$(git rev-list HEAD ^origin/${GITHUB_BASE_REF})
+regex="\[[a-zA-Z0-9,\.\_\-]+-[0-9]+\]"
+
+target_branch_diff_commits=$(git rev-list HEAD ^origin/prod/v3)
 
 while read -r commit_hash; do
     commit_message="$(git log --format=%B -n 1 ${commit_hash})"
-    if [[ $branch =~ '\[[A-Z]{2,}-\d+\]']]; then
+    if [[ $commit_message =~ $regex ]]; then
         echo "[PASS] ${commit_message}"
     else
         echo "[FAIL] ${commit_message}"
-        exit 1;
+        exit 1
     fi
 done <<< "$target_branch_diff_commits"
