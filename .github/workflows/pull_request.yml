@@ -1,0 +1,14 @@
+name: Pull Request Status Checks
+
+on:
+  workflow_call:
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check commit messages for format compliance.
+        shell: bash
+        run: ./.github/scripts/check_commits.sh
+      
