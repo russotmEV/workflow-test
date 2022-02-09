@@ -3,7 +3,7 @@ set -eu
 
 regex="\[[a-zA-Z0-9,\.\_\-]+-[0-9]+\]"
 
-target_branch_diff_commits=$(git rev-list HEAD ^origin/prod/v3)
+target_branch_diff_commits=$(git rev-list HEAD ^origin/${GITHUB_BASE_REF})
 
 while read -r commit_hash; do
     commit_message="$(git log --format=%B -n 1 ${commit_hash})"
